@@ -1,26 +1,29 @@
 #!/bin/bash
 #Make Scripts Globally Available
-echo "Making scripts globally available"
+echo "Adding Scripts to PATH"
 chmod u+x scripts/wlfmnn.sh;
 cp scripts/wlfmnn.sh /usr/local/bin;
 echo "Done"
+
 #Copy Generator Files to Home Directory
 echo "Copying generator files to home directory"
-mkdir generator-files;
-cp -a . $HOME/generator-files;
-echo "Done, files are available in" $HOME"/generator-files"
-echo "You can run the script wlfmnn in the directory you would like to start a project in"
+mkdir $HOME/wlfmnn;
+cp -a . $HOME/wlfmnn;
+echo "Done, files are available in" $HOME"/wlfmnn"
 
+echo "You can run the script wlfmnn in the directory you would like to start a project in"
+ROOT="$HOME/wlfmnn"
 #New Project Prompt
 while true; do
-    read -p "Would you like to start a new project? Y/N" yn
+    read -p "Would you like to start a new project now? Y/N" yn
     case $yn in
+        #If yes
         [Yy]* ) 
-            DIRECTORY="wlfmnn-sites"
+            DIRECTORY="$ROOT/wlfmnn-sites"
             if [ -d "$DIRECTORY" ]; then
-                cd wlfmnn-sites;
+                cd $ROOT/wlfmnn-sites;
             else
-                mkdir wlfmnn-sites && cd wlfmnn-sites;
+                mkdir $ROOT/wlfmnn-sites && cd $ROOT/wlfmnn-sites;
             fi
 				#New Project name
 				name="$(osascript -e 'Tell application "System Events" to display dialog "Enter the project name:" default answer ""' -e 'text returned of result' 2>/dev/null)"
@@ -32,10 +35,13 @@ while true; do
     				osascript -e 'Tell application "System Events" to display alert "You must enter a project name; cancelling..." as warning'
     				exit 1 # exit with an error status
 				fi
+                #Make new folder with User Inputed Name
 				mkdir -p $name;
 				cd $name;
+                #Run Basic Script
 				wlfmnn.sh;
 				break;;
+        #If No
         [Nn]* ) break;;
         * ) echo "";;
     esac

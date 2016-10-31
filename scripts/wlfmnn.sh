@@ -1,4 +1,5 @@
 #!/bin/bash
+
 #Generate File Tree
 mkdir src;
 mkdir dist;
@@ -7,7 +8,7 @@ touch src/js/main.js;
 mkdir -p src/img;     
 
 #Set Generator Files to location set in the build.sh file
-ROOT=$HOME/generator-files
+ROOT=$HOME/wlfmnn
 
 #Git
 while true; do
