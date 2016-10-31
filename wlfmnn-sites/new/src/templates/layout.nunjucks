@@ -1,0 +1,17 @@
+<!-- layout.nunjucks -->
+<!DOCTYPE html>
+<html lang="en">
+{% include "partials/head.nunjucks" %}
+<body>
+	<header>
+		{% include "partials/header.nunjucks" %}
+	</header>
+	
+	<main>
+	{% block content %} {% endblock %}
+	</main>
+
+	{% include "partials/footer.nunjucks" %}
+	<script src="../js/main.js"></script>
+</body>
+</html>

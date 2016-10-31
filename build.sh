@@ -1,7 +1,8 @@
 #!/bin/bash
 #Make Scripts Globally Available
 echo "Making scripts globally available"
-cp /scripts/. /usr/local/bin;
+chmod u+x scripts/wlfmnn.sh;
+cp scripts/wlfmnn.sh /usr/local/bin;
 echo "Done"
 #Copy Generator Files to Home Directory
 echo "Copying generator files to home directory"
@@ -14,7 +15,13 @@ echo "You can run the script wlfmnn in the directory you would like to start a p
 while true; do
     read -p "Would you like to start a new project? Y/N" yn
     case $yn in
-        [Yy]* ) cd && mkdir wlfmnn-sites && cd wlfmnn-sites; 
+        [Yy]* ) 
+            DIRECTORY="wlfmnn-sites"
+            if [ -d "$DIRECTORY" ]; then
+                cd wlfmnn-sites;
+            else
+                mkdir wlfmnn-sites && cd wlfmnn-sites;
+            fi
 				#New Project name
 				name="$(osascript -e 'Tell application "System Events" to display dialog "Enter the project name:" default answer ""' -e 'text returned of result' 2>/dev/null)"
 				if [ $? -ne 0 ]; then
@@ -27,7 +34,7 @@ while true; do
 				fi
 				mkdir -p $name;
 				cd $name;
-				wlfmnn;
+				wlfmnn.sh;
 				break;;
         [Nn]* ) break;;
         * ) echo "";;
