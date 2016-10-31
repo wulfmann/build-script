@@ -1,0 +1,39 @@
+/* _breakpoints.scss */
+@mixin md {
+  @media (max-width: 1199px){
+    @content;
+  }
+}
+@mixin sm {
+  @media (max-width: 991px){
+    @content;
+  }
+}
+@mixin xs {
+  @media (max-width: 767px){
+    @content;
+  }
+}
+@mixin xxs {
+  @media (max-width: 400px){
+    @content;
+  }
+}
+@mixin sm-and-up {
+  @media (min-width: 768px){
+    @content;
+  }
+}
+@mixin md-and-up {
+  @media (min-width: 992px){
+    @content;
+  }
+}
+@mixin lg-and-up {
+  @media (min-width: 1200px){
+    @content;
+  }
+}
+
+// set variable for bourbon neat
+$max-width: 1170px;

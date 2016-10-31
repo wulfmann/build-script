@@ -3,8 +3,11 @@
 mkdir src;
 mkdir dist;
 mkdir -p src/js;
+touch src/js/main.js;
 mkdir -p src/img;     
-mkdir -p src/data;
+
+#Set Generator Files to location set in the build.sh file
+ROOT=$HOME/generator-files
 
 #Git
 while true; do
@@ -50,11 +53,38 @@ done
 while true; do
     read -p "Do you want to use a taskrunner? Y/N" yn
     case $yn in
-        [Yy]* ) file="/package.json"
+        [Yy]* ) file="./package.json"
+				#Check if package.json exists
 				if [ -f "$file" ]
+				#If package.json is found, offer taskrunner options
 				then
-					echo "$file found."
+					#Select Taskrunner
+					echo "Select a taskrunner"
+					taskoptions=("Gulp" "Grunt" "Skip")
+					select opt in "${taskoptions[@]}"
+					do
+					  case $opt in
+					    "Gulp") 
+							echo "You have selected Gulp"; 
+							#Create Gulpfile
+							cp $ROOT/taskrunners/gulp/gulpfile.js .;
+							echo "Gulp Complete"
+					    	break
+					    	;;
+					    "Grunt")
+							echo "You have selected Grunt"; 
+							cp $ROOT/taskrunners/grunt/gruntfile.js .;
+							echo "Grunt Complete"
+					    	break
+					    	;;
+					    "Skip") 
+							break
+							;;
+						*) echo invalid option;;
+					  esac
+					done
 				else
+					# If package.json is not found, run npm init
 					npm init
 				fi
 				break;;
@@ -72,14 +102,14 @@ do
     "SCSS") 
 		echo "You have selected SCSS"; 
 		mkdir -p src/styles;
-		cp -a preprocessors/scss/ src/styles
+		cp -a $ROOT/preprocessors/scss/ ./src/styles
 		echo "Styles Complete"
     	break
     	;;
     "Stylus")
 		echo "You have selected Stylus"; 
 		mkdir -p src/styles;
-		cp -a preprocessors/stylus/ src/styles
+		cp -a $ROOT/preprocessors/stylus/ ./src/styles
 		echo "Styles Complete"
     	break
     	;;
@@ -92,27 +122,17 @@ done
 
 #Templating
 echo "Select an html templating engine"
-engines=("Nunjucks" "Pug" "Liquid" "Handlebars" "Skip")
+engines=("Nunjucks" "Pug" "Skip")
 select opt in "${engines[@]}"
 do
   case $opt in
     "Nunjucks") 
-		cp -a /engines/nunjucks/ src/
+		cp -a $ROOT/engines/nunjucks/ ./src/;
 		echo "HTML Complete"
     	break
     	;;
     "Pug")
-		cp -a /engines/pug/ src/
-		echo "HTML Complete"
-    	break
-    	;;
-    "Liquid")
-		cp -a /engines/liquid/ src/
-		echo "HTML Complete"
-    	break
-    	;;
-	"Handlebars")
-		cp -a /engines/handlebars/ src/
+		cp -a $ROOT/engines/pug/ ./src/;
 		echo "HTML Complete"
     	break
     	;;
@@ -126,3 +146,4 @@ done
 #Open Project Directory in Sublime
 subl .;
 echo "Complete"
+exit
